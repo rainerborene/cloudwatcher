@@ -4,11 +4,14 @@ import (
 	"github.com/cloudfoundry/gosigar"
 	"github.com/crowdmob/goamz/aws"
 	"github.com/crowdmob/goamz/cloudwatch"
+	"math"
 	"time"
 )
 
 const (
-	MEMORY_UNITS = "Megabytes"
+	DISK_UNITS       = "Gigabytes"
+	DISK_UNITS_DIV   = 1048576
+	MEMORY_UNITS     = "Megabytes"
 	MEMORY_UNITS_DIV = 1048576
 )
 
@@ -46,16 +49,16 @@ func GetFileSystemDatum() []cloudwatch.MetricDatum {
 		cloudwatch.MetricDatum{
 			Dimensions: dimensions,
 			MetricName: "DiskSpaceUsed",
-			Unit:       MEMORY_UNITS,
+			Unit:       DISK_UNITS,
 			Timestamp:  now,
-			Value:      float64(disk.Used / MEMORY_UNITS_DIV),
+			Value:      math.Ceil(float64(disk.Used)) / DISK_UNITS_DIV,
 		},
 		cloudwatch.MetricDatum{
 			Dimensions: dimensions,
 			MetricName: "DiskSpaceAvailable",
-			Unit:       MEMORY_UNITS,
+			Unit:       DISK_UNITS,
 			Timestamp:  now,
-			Value:      float64(disk.Free / MEMORY_UNITS_DIV),
+			Value:      math.Ceil(float64(disk.Free)) / DISK_UNITS_DIV,
 		},
 	}
 }
