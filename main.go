@@ -65,5 +65,6 @@ func main() {
 
 	memoryDatum := GetMemoryDatum()
 
-	watch.PutMetricData(memoryDatum)
+	_, err = watch.PutMetricData(memoryDatum)
+	check(err)
 }
