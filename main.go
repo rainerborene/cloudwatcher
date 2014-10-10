@@ -20,6 +20,9 @@ func GetMemoryDatum() []cloudwatch.MetricDatum {
 	mem := sigar.Mem{}
 	mem.Get()
 
+	swap := sigar.Swap{}
+	swap.Get()
+
 	dimensions := []cloudwatch.Dimension{
 		cloudwatch.Dimension{
 			Name:  "InstanceId",
@@ -49,6 +52,20 @@ func GetMemoryDatum() []cloudwatch.MetricDatum {
 			Timestamp:  now,
 			Value:      float64(mem.Used / MEMORY_UNITS_DIV),
 		},
+		cloudwatch.MetricDatum{
+			Dimensions: dimensions,
+			MetricName: "SwapUtilization",
+			Unit:       "Megabytes",
+			Timestamp:  now,
+			Value:      float64(100 * swap.Used / swap.Total),
+		},
+		cloudwatch.MetricDatum{
+			Dimensions: dimensions,
+			MetricName: "SwapUsed",
+			Unit:       "Megabytes",
+			Timestamp:  now,
+			Value:      float64(swap.Used / MEMORY_UNITS_DIV),
+		},
 	}
 }
 
@@ -59,7 +76,7 @@ func main() {
 
 	region := aws.Regions[aws.InstanceRegion()]
 
-	// // Initialize CloudWatch
+	// Initialize CloudWatch
 	watch, err := cloudwatch.NewCloudWatch(auth, region.CloudWatchServicepoint)
 	check(err)
 
