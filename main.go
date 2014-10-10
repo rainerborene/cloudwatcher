@@ -34,7 +34,7 @@ func GetMemoryDatum() []cloudwatch.MetricDatum {
 		cloudwatch.MetricDatum{
 			Dimensions: dimensions,
 			MetricName: "MemoryUtilization",
-			Unit:       "Megabytes",
+			Unit:       "Percent",
 			Timestamp:  now,
 			Value:      float64(100 * mem.Used / mem.Total),
 		},
@@ -55,7 +55,7 @@ func GetMemoryDatum() []cloudwatch.MetricDatum {
 		cloudwatch.MetricDatum{
 			Dimensions: dimensions,
 			MetricName: "SwapUtilization",
-			Unit:       "Megabytes",
+			Unit:       "Percent",
 			Timestamp:  now,
 			Value:      float64(100 * swap.Used / swap.Total),
 		},
