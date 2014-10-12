@@ -47,7 +47,7 @@ func GetFileSystemDatum() []cloudwatch.MetricDatum {
 			MetricName: "DiskSpaceUsed",
 			Unit:       Config.DiskSpaceUnits,
 			Timestamp:  now,
-			Value:      float64(disk.Used / Config.DiskSpaceUnitsInt()),
+			Value:      float64(disk.Used) / float64(Config.DiskSpaceUnitsInt()),
 		})
 	}
 
@@ -57,7 +57,7 @@ func GetFileSystemDatum() []cloudwatch.MetricDatum {
 			MetricName: "DiskSpaceAvailable",
 			Unit:       Config.DiskSpaceUnits,
 			Timestamp:  now,
-			Value:      float64(disk.Avail / Config.DiskSpaceUnitsInt()),
+			Value:      float64(disk.Avail) / float64(Config.DiskSpaceUnitsInt()),
 		})
 	}
 
