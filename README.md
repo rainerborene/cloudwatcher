@@ -15,6 +15,13 @@ Metrics
 - Disk Space Used (GB)
 - Disk Space Available (GB)
 
+Todo
+====
+
+* [ ] Fix disk space unit conversion
+* [ ] Get utilization statistics for the last 12 hours
+* [ ] Command-line interface
+
 Credits
 =======
 
