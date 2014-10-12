@@ -24,7 +24,7 @@ func GetFileSystemDatum() []cloudwatch.MetricDatum {
 	now := time.Now()
 
 	disk := sigar.FileSystemUsage{}
-	disk.Get("/")
+	disk.Get(Config.DiskPath)
 
 	if Config.DiskSpaceUtil {
 		metrics = append(metrics, cloudwatch.MetricDatum{
