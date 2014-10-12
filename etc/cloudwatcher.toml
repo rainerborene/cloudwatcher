@@ -1,0 +1,35 @@
+# The namespace for the metric data. You cannot specify a namespace that begins
+# with "AWS/". Namespaces that begin with "AWS/" are reserved for other Amazon
+# Web Services products that send metrics to Amazon CloudWatch.
+namespace = "System/Linux"
+
+# Reports memory utilization in percentages.
+mem_util = true
+
+# Reports memory used in megabytes.
+mem_used = true
+
+# Reports available memory in megabytes.
+mem_avail = true
+
+# Reports swap utilization in percentages.
+swap_util = true
+
+# Reports allocated swap space in megabytes.
+swap_used = true
+
+# Selects the disk by the path on which to report.
+disk_path = "/"
+
+# Reports disk space utilization in percentages.
+disk_space_util = true
+
+# Reports allocated disk space in gigabytes.
+disk_space_used = true
+
+# Reports available disk space in gigabytes.
+disk_space_avail = true
+
+# Supported units are Bytes, Kilobytes, Megabytes, and Gigabytes.
+memory_units = "Megabytes"
+disk_space_units = "Gigabytes"
