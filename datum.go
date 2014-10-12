@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/cloudfoundry/gosigar"
 	"github.com/crowdmob/goamz/cloudwatch"
+	"syscall"
 	"time"
 )
 
@@ -17,18 +18,18 @@ func GetDimensions() []cloudwatch.Dimension {
 
 func GetFileSystemDatum() []cloudwatch.MetricDatum {
 	metrics := []cloudwatch.MetricDatum{}
-
 	dimensions := GetDimensions()
-
 	now := time.Now()
 
-	disk := sigar.FileSystemUsage{}
-	disk.Get(Config.DiskPath)
+	stat := syscall.Statfs_t{}
+	err := syscall.Statfs(Config.DiskPath, &stat)
+	check(err)
 
-	// Convert to bytes
-	disk.Total = (disk.Total << 1) / 8 * 4096
-	disk.Used = (disk.Used << 1) / 8 * 4096
-	disk.Avail = (disk.Avail << 1) / 8 * 4096
+	disk := sigar.FileSystemUsage{}
+	disk.Total = (uint64(stat.Blocks) * uint64(stat.Bsize))
+	disk.Free = (uint64(stat.Bfree) * uint64(stat.Bsize))
+	disk.Avail = (uint64(stat.Bavail) * uint64(stat.Bsize))
+	disk.Used = disk.Total - disk.Free
 
 	if Config.DiskSpaceUtil {
 		metrics = append(metrics, cloudwatch.MetricDatum{
@@ -65,9 +66,7 @@ func GetFileSystemDatum() []cloudwatch.MetricDatum {
 
 func GetMemoryDatum() []cloudwatch.MetricDatum {
 	metrics := []cloudwatch.MetricDatum{}
-
 	dimensions := GetDimensions()
-
 	now := time.Now()
 
 	mem := sigar.Mem{}
