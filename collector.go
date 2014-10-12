@@ -8,21 +8,31 @@ import (
 )
 
 type collector struct {
+	region   aws.Region
 	server   *cloudwatch.CloudWatch
 	duration time.Duration
+	rotation <-chan time.Time
 }
 
 func NewCollector(duration time.Duration) *collector {
-	// AWS Authentication
+	region := aws.Regions[aws.InstanceRegion()]
+	instance := &collector{duration: duration, region: region}
+	instance.RotateCredentials()
+	return instance
+}
+
+func (c *collector) RotateCredentials() {
+	// IAM Authentication
 	auth, err := aws.GetAuth("", "", "", time.Now())
 	check(err)
 
 	// Initialize CloudWatch
-	region := aws.Regions[aws.InstanceRegion()]
-	server, err := cloudwatch.NewCloudWatch(auth, region.CloudWatchServicepoint)
+	server, err := cloudwatch.NewCloudWatch(auth, c.region.CloudWatchServicepoint)
 	check(err)
 
-	return &collector{server: server, duration: duration}
+	// Security credentials are temporary and EC2 rotate them automatically.
+	c.rotation = time.After(time.Since(auth.Expiration().Add(-time.Minute)))
+	c.server = server
 }
 
 func (c *collector) PutMetric(datum []cloudwatch.MetricDatum) {
@@ -45,6 +55,8 @@ func (c *collector) Run() chan bool {
 			case <-ticker.C:
 				c.PutMetric(GetMemoryDatum())
 				c.PutMetric(GetFileSystemDatum())
+			case <-c.rotation:
+				c.RotateCredentials()
 			case <-stop:
 				return
 			}

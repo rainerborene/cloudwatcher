@@ -19,7 +19,7 @@ Todo
 ====
 
 * [x] Fix disk space conversion
-* [ ] Fix InvalidClientTokenId error
+* [x] Fix InvalidClientTokenId error
 * [ ] Implement `Valid()` function.
 * [ ] Get utilization statistics for the last 12 hours
 * [ ] Command-line interface
