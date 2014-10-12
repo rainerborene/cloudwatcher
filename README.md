@@ -23,6 +23,7 @@ Todo
 * [ ] Implement `Valid()` function.
 * [ ] Get utilization statistics for the last 12 hours
 * [ ] Command-line interface
+* [ ] Custom time periodicity
 
 Credits
 =======
