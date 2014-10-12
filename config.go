@@ -8,7 +8,6 @@ import (
 
 var paths = []string{
 	"/etc/cloudwatcher.toml",
-	"etc/cloudwatcher.toml",
 	"cloudwatcher.toml",
 }
 
