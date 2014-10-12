@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/cloudfoundry/gosigar"
 	"github.com/crowdmob/goamz/cloudwatch"
-	"math"
 	"time"
 )
 
