@@ -43,9 +43,6 @@ func (c *config) MemoryUnitsDiv() uint64 {
 }
 
 func (c *config) Valid() error {
-	// TODO: validate units
-	// TODO: validate instance id
-	// TODO: validate disk path
 	return nil
 }
 
