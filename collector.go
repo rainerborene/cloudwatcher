@@ -31,7 +31,7 @@ func (c *collector) RotateCredentials() {
 	c.server = server
 
 	// Security credentials are temporary and EC2 rotate them automatically.
-	expiration := time.Since(auth.Expiration().Add(-time.Minute))
+	expiration := auth.Expiration().Add(-time.Minute).Sub(time.Now())
 	time.AfterFunc(expiration, func() {
 		c.RotateCredentials()
 	})
