@@ -18,7 +18,7 @@ Metrics
 Credits
 =======
 
-Inspired by [Amazon CloudWatch Monitoring Perl Scripts for Linux](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/mon-scripts-perl.html).
+Inspired by [Amazon CloudWatch Monitoring Scripts for Linux](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/mon-scripts-perl.html).
 
 License
 =======
