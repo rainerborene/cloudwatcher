@@ -1,4 +1,4 @@
-package cloudwatcher
+package main
 
 import (
 	"github.com/crowdmob/goamz/aws"
@@ -31,11 +31,11 @@ func (c *collector) PutMetric(datum []cloudwatch.MetricDatum) {
 	check(err)
 
 	for m := range datum {
-		log.Println("%s: %f (%s)", datum[m].MetricName, datum[m].Value, datum[m].Unit)
+		log.Printf("%s: %f (%s)\n", datum[m].MetricName, datum[m].Value, datum[m].Unit)
 	}
 }
 
-func (c *collector) Collect() chan bool {
+func (c *collector) Run() chan bool {
 	ticker := time.NewTicker(c.duration)
 	stop := make(chan bool, 1)
 

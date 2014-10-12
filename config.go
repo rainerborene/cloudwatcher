@@ -1,4 +1,4 @@
-package cloudwatcher
+package main
 
 import (
 	"github.com/BurntSushi/toml"

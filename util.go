@@ -1,11 +1,7 @@
-package cloudwatcher
-
-import (
-	"log"
-)
+package main
 
 func check(err error) {
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }
