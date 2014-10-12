@@ -26,6 +26,10 @@ func GetFileSystemDatum() []cloudwatch.MetricDatum {
 	disk := sigar.FileSystemUsage{}
 	disk.Get(Config.DiskPath)
 
+	// Convert to bytes
+	disk.Used = (disk.Used << 1) / 8 * 4096
+	disk.Avail = (disk.Avail << 1) / 8 * 4096
+
 	if Config.DiskSpaceUtil {
 		metrics = append(metrics, cloudwatch.MetricDatum{
 			Dimensions: dimensions,
@@ -52,7 +56,7 @@ func GetFileSystemDatum() []cloudwatch.MetricDatum {
 			MetricName: "DiskSpaceAvailable",
 			Unit:       Config.DiskSpaceUnits,
 			Timestamp:  now,
-			Value:      math.Ceil(float64(disk.Free)) / float64(Config.DiskSpaceUnitsDiv()),
+			Value:      math.Ceil(float64(disk.Avail)) / float64(Config.DiskSpaceUnitsDiv()),
 		})
 	}
 

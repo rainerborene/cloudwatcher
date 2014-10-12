@@ -18,8 +18,8 @@ Metrics
 Todo
 ====
 
+* [x] Fix disk space unit conversion
 * [ ] Implement `Valid()` function.
-* [ ] Fix disk space unit conversion
 * [ ] Get utilization statistics for the last 12 hours
 * [ ] Command-line interface
 
