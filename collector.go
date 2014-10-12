@@ -29,18 +29,14 @@ func (c *collector) RotateCredentials() {
 	server, err := cloudwatch.NewCloudWatch(auth, c.region.CloudWatchServicepoint)
 	check(err)
 	c.server = server
-	expiration := time.Since(auth.Expiration().Add(-time.Minute))
 
 	// Security credentials are temporary and EC2 rotate them automatically.
-	go func() {
-		for {
-			select {
-				case <-time.After(expiration):
-					c.RotateCredentials()
-					return
-			}
-		}
-	}()
+	expiration := time.Since(auth.Expiration().Add(-time.Minute))
+	time.AfterFunc(expiration, func() {
+		c.RotateCredentials()
+	})
+
+	log.Printf("AWS Credentials expiration time: %s\n", expiration.String())
 }
 
 func (c *collector) PutMetric(datum []cloudwatch.MetricDatum) {
@@ -56,6 +52,8 @@ func (c *collector) PutMetric(datum []cloudwatch.MetricDatum) {
 func (c *collector) Run() chan bool {
 	ticker := time.NewTicker(c.duration)
 	stop := make(chan bool, 1)
+
+	log.Println("CloudWatcher collector started")
 
 	go func() {
 		for {
