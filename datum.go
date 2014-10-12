@@ -27,6 +27,7 @@ func GetFileSystemDatum() []cloudwatch.MetricDatum {
 	disk.Get(Config.DiskPath)
 
 	// Convert to bytes
+	disk.Total = (disk.Total << 1) / 8 * 4096
 	disk.Used = (disk.Used << 1) / 8 * 4096
 	disk.Avail = (disk.Avail << 1) / 8 * 4096
 
@@ -36,7 +37,7 @@ func GetFileSystemDatum() []cloudwatch.MetricDatum {
 			MetricName: "DiskSpaceUtilization",
 			Unit:       "Percent",
 			Timestamp:  now,
-			Value:      disk.UsePercent(),
+			Value:      float64(100 * disk.Used / disk.Total),
 		})
 	}
 
@@ -46,7 +47,7 @@ func GetFileSystemDatum() []cloudwatch.MetricDatum {
 			MetricName: "DiskSpaceUsed",
 			Unit:       Config.DiskSpaceUnits,
 			Timestamp:  now,
-			Value:      math.Ceil(float64(disk.Used)) / float64(Config.DiskSpaceUnitsDiv()),
+			Value:      float64(disk.Used / Config.DiskSpaceUnitsInt()),
 		})
 	}
 
@@ -56,7 +57,7 @@ func GetFileSystemDatum() []cloudwatch.MetricDatum {
 			MetricName: "DiskSpaceAvailable",
 			Unit:       Config.DiskSpaceUnits,
 			Timestamp:  now,
-			Value:      math.Ceil(float64(disk.Avail)) / float64(Config.DiskSpaceUnitsDiv()),
+			Value:      float64(disk.Avail / Config.DiskSpaceUnitsInt()),
 		})
 	}
 
@@ -92,7 +93,7 @@ func GetMemoryDatum() []cloudwatch.MetricDatum {
 			MetricName: "MemoryAvailable",
 			Unit:       Config.MemoryUnits,
 			Timestamp:  now,
-			Value:      float64(mem.Free / Config.MemoryUnitsDiv()),
+			Value:      float64(mem.Free / Config.MemoryUnitsInt()),
 		})
 	}
 
@@ -102,7 +103,7 @@ func GetMemoryDatum() []cloudwatch.MetricDatum {
 			MetricName: "MemoryUsed",
 			Unit:       Config.MemoryUnits,
 			Timestamp:  now,
-			Value:      float64(mem.Used / Config.MemoryUnitsDiv()),
+			Value:      float64(mem.Used / Config.MemoryUnitsInt()),
 		})
 	}
 
@@ -122,7 +123,7 @@ func GetMemoryDatum() []cloudwatch.MetricDatum {
 			MetricName: "SwapUsed",
 			Unit:       Config.MemoryUnits,
 			Timestamp:  now,
-			Value:      float64(swap.Used / Config.MemoryUnitsDiv()),
+			Value:      float64(swap.Used / Config.MemoryUnitsInt()),
 		})
 	}
 

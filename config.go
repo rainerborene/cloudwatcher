@@ -34,11 +34,11 @@ type config struct {
 	Namespace      string
 }
 
-func (c *config) DiskSpaceUnitsDiv() uint64 {
+func (c *config) DiskSpaceUnitsInt() uint64 {
 	return units[c.DiskSpaceUnits]
 }
 
-func (c *config) MemoryUnitsDiv() uint64 {
+func (c *config) MemoryUnitsInt() uint64 {
 	return units[c.MemoryUnits]
 }
 
