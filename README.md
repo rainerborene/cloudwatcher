@@ -1,7 +1,7 @@
 cloudwatcher
 ============
 
-Collects memory, swap, and disk space utilization on an Amazon EC2 instance and sends this data as custom metrics to Amazon CloudWatch every 5 minutes.
+Collects memory, swap, and disk space utilization on an Amazon EC2 instance and sends this data as custom metrics to Amazon CloudWatch periodically.
 
 Metrics
 =======
