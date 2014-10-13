@@ -20,10 +20,10 @@ Todo
 
 * [x] Fix disk space conversion
 * [x] Fix InvalidClientTokenId error
-* [ ] Implement `Valid()` function.
+* [x] Command-line interface
+* [x] Custom time periodicity
 * [ ] Get utilization statistics for the last 12 hours
-* [ ] Command-line interface
-* [ ] Custom time periodicity
+* [ ] Implement `Valid()` function.
 
 Credits
 =======

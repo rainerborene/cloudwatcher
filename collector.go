@@ -36,7 +36,7 @@ func (c *collector) RotateCredentials() {
 		c.RotateCredentials()
 	})
 
-	log.Printf("AWS Credentials expiration time: %s\n", auth.Expiration())
+	log.Printf("Credentials expiration time: %s\n", auth.Expiration())
 }
 
 func (c *collector) PutMetric(datum []cloudwatch.MetricDatum) {

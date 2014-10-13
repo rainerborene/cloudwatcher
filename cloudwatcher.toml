@@ -33,3 +33,6 @@ disk_space_avail = true
 # Supported units are Bytes, Kilobytes, Megabytes, and Gigabytes.
 memory_units = "Megabytes"
 disk_space_units = "Gigabytes"
+
+# Collect metrics every X seconds. Defaults to 60 seconds.
+interval = 60
