@@ -15,7 +15,7 @@ type collector struct {
 
 func NewCollector(duration time.Duration) *collector {
 	region := aws.Regions[aws.InstanceRegion()]
-	instance := &collector{duration: duration, region: region}
+	instance := &collector{duration: duration * time.Second, region: region}
 	instance.RotateCredentials()
 	return instance
 }

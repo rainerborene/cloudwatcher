@@ -84,5 +84,9 @@ var Config = &config{
 	MemoryUnits:    "Megabytes",
 	DiskSpaceUnits: "Gigabytes",
 	Namespace:      "System/Linux",
-	Interval:       time.Second,
+	Interval:       60,
+}
+
+func init() {
+	Config.Parse()
 }

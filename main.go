@@ -3,12 +3,9 @@ package main
 import (
 	"github.com/codegangsta/cli"
 	"os"
-	"time"
 )
 
 func main() {
-	Config.Parse()
-
 	app := cli.NewApp()
 	app.Version = "0.1.0"
 	app.Name = "cloudwatcher"
@@ -27,7 +24,7 @@ func main() {
 			Usage: "Collects system metrics on an Amazon EC2 instance",
 			ShortName: "w",
 			Action: func(c *cli.Context) {
-				collector := NewCollector(Config.Interval * time.Second)
+				collector := NewCollector(Config.Interval)
 				<-collector.Run()
 			},
 		},
