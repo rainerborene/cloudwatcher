@@ -15,7 +15,7 @@ func main() {
 	app.Usage = "Reports memory, swap, and disk space utilization metrics for an Amazon EC2 Linux instance."
 	app.Commands = []cli.Command{
 		{
-			Name:      "status",
+			Name:      "statistics",
 			Usage:     "Displays the most recent utilization statistics",
 			ShortName: "s",
 			Action: func(c *cli.Context) {

@@ -12,7 +12,7 @@ To start `cloudwatcher` daemon you simply run:
 
 You can also query Amazon CloudWatch API for recent statistics:
 
-    $ cloudwatcher status
+    $ cloudwatcher statistics
 
 Metrics
 =======
