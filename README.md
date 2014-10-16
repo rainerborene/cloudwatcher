@@ -3,6 +3,17 @@ cloudwatcher
 
 Collects memory, swap, and disk space utilization on an Amazon EC2 instance and sends this data as custom metrics to Amazon CloudWatch periodically.
 
+Usage
+=====
+
+To start `cloudwatcher` daemon you simply run:
+
+    $ cloudwatcher
+
+You can also query Amazon CloudWatch API for recent statistics:
+
+    $ cloudwatcher status
+
 Metrics
 =======
 
@@ -22,7 +33,7 @@ Todo
 * [x] Fix InvalidClientTokenId error
 * [x] Command-line interface
 * [x] Custom time periodicity
-* [x] Validate config values using `Valid()` function
+* [x] Validate configuration values
 * [ ] Get utilization statistics for the last X hours
 
 Credits
