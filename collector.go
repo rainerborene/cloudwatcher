@@ -59,8 +59,13 @@ func (c *collector) Run() chan bool {
 		for {
 			select {
 			case <-ticker.C:
-				c.PutMetric(GetMemoryDatum())
-				c.PutMetric(GetFileSystemDatum())
+				if Config.MemoryEnabled() {
+					c.PutMetric(GetMemoryDatum())
+				}
+
+				if Config.DiskEnabled() {
+					c.PutMetric(GetFileSystemDatum())
+				}
 			case <-stop:
 				return
 			}

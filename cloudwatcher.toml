@@ -3,6 +3,9 @@
 # Web Services products that send metrics to Amazon CloudWatch.
 namespace = "System/Linux"
 
+# Collects metrics every 60 seconds.
+interval = 60
+
 # Reports memory utilization in percentages.
 mem_util = true
 
@@ -33,6 +36,3 @@ disk_space_avail = true
 # Supported units are Bytes, Kilobytes, Megabytes, and Gigabytes.
 memory_units = "Megabytes"
 disk_space_units = "Gigabytes"
-
-# Collect metrics every X seconds. Defaults to 60 seconds.
-interval = 60

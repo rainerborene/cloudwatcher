@@ -1,6 +1,8 @@
 package main
 
 import (
+	"errors"
+	"fmt"
 	"github.com/BurntSushi/toml"
 	"github.com/crowdmob/goamz/aws"
 	"os"
@@ -36,6 +38,14 @@ type config struct {
 	Interval       time.Duration `toml:"interval"`
 }
 
+func (c *config) MemoryEnabled() bool {
+	return c.MemAvail || c.MemUsed || c.MemUtil
+}
+
+func (c *config) DiskEnabled() bool {
+	return c.DiskSpaceAvail || c.DiskSpaceUsed || c.DiskSpaceUtil
+}
+
 func (c *config) DiskSpaceUnitsInt() uint64 {
 	return units[c.DiskSpaceUnits]
 }
@@ -45,6 +55,24 @@ func (c *config) MemoryUnitsInt() uint64 {
 }
 
 func (c *config) Valid() error {
+	if c.InstanceId == "" {
+		return errors.New("Cannot obtain instance id from EC2 meta-data.")
+	} else if c.MemoryUnits == "" {
+		return errors.New("Value of memory units is not specified.")
+	} else if c.DiskSpaceUnits == "" {
+		return errors.New("Value of disk space units is not specified.")
+	} else if c.MemoryUnitsInt() == 0 {
+		return errors.New(fmt.Sprintf("Unsupported memory units '%s'. Use Bytes, Kilobytes, Megabytes, or Gigabytes.", c.MemoryUnits))
+	} else if c.DiskSpaceUnitsInt() == 0 {
+		return errors.New(fmt.Sprintf("Unsupported disk space units '%s'. Use Bytes, Kilobytes, Megabytes, or Gigabytes.", c.DiskSpaceUnits))
+	} else if c.DiskPath == "" && c.DiskEnabled() {
+		return errors.New("Value of disk path is not specified.")
+	} else if _, err := os.Stat(c.DiskPath); err != nil && c.DiskEnabled() {
+		return errors.New(fmt.Sprintf("Disk file path '%s' does not exist or cannot be accessed.", c.DiskPath))
+	} else if !c.DiskEnabled() && !c.MemoryEnabled() {
+		return errors.New("No metrics specified for collection and submission to CloudWatch.")
+	}
+
 	return nil
 }
 
@@ -85,8 +113,4 @@ var Config = &config{
 	DiskSpaceUnits: "Gigabytes",
 	Namespace:      "System/Linux",
 	Interval:       60,
-}
-
-func init() {
-	Config.Parse()
 }

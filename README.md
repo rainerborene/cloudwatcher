@@ -22,8 +22,8 @@ Todo
 * [x] Fix InvalidClientTokenId error
 * [x] Command-line interface
 * [x] Custom time periodicity
+* [x] Validate config values using `Valid()` function
 * [ ] Get utilization statistics for the last X hours
-* [ ] Validate config values using `Valid()` function
 
 Credits
 =======
